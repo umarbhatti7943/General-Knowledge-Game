@@ -48,3 +48,109 @@ MonoBehaviour:
     - Arctic Ocean
     - Pacific Ocean
     correctOptionIndex: 3
+  - questionText: Which country has the largest population in the world (2026)?
+    options:
+    - India
+    - China
+    - United States
+    - Indonesia
+    correctOptionIndex: 0
+  - questionText: What is the lower house of the Parliament of Pakistan called?
+    options:
+    - Senate
+    - Supreme Court
+    - National Assembly
+    - Cabinet
+    correctOptionIndex: 2
+  - questionText: Which organization is responsible for maintaining international
+      peace and security?
+    options:
+    - NATO
+    - OIC
+    - IMF
+    - United Nations (UN)
+    correctOptionIndex: 3
+  - questionText: Which country hosts the headquarters of the United Nations?
+    options:
+    - United Kingdom
+    - France
+    - Switzerland
+    - United States
+    correctOptionIndex: 3
+  - questionText: What is the chemical symbol of Gold?
+    options:
+    - Ag
+    - Gd
+    - Au
+    - Go
+    correctOptionIndex: 2
+  - questionText: What gas do plants absorb from the atmosphere?
+    options:
+    - Carbon Dioxide
+    - Oxygen
+    - Nitrogen
+    - Hydrogen
+    correctOptionIndex: 0
+  - questionText: What is the speed of light in vacuum?
+    options:
+    - 300,000 km/s
+    - 150,000 km/s
+    - 500,000 km/s
+    - 100,000 km/s
+    correctOptionIndex: 0
+  - questionText: What does CPU stand for?
+    options:
+    - Computer Power Unit
+    - Central Processing Unit
+    - Central Program Unit
+    - Core Processing Utility
+    correctOptionIndex: 1
+  - questionText: Which company developed Android?
+    options:
+    - Apple
+    - Microsoft
+    - Google
+    - Samsung
+    correctOptionIndex: 2
+  - questionText: What does SSD stand for?
+    options:
+    - Secure Storage Device
+    - Solid State Drive
+    - Speed Storage Disk
+    - Smart System Drive
+    correctOptionIndex: 1
+  - questionText: What does AI stand for?
+    options:
+    - Automatic Intelligence
+    - Advanced Internet
+    - Automated Interface
+    - Artificial Intelligence
+    correctOptionIndex: 3
+  - questionText: Which company created ChatGPT?
+    options:
+    - Google
+    - Meta
+    - OpenAI
+    - Amazon
+    correctOptionIndex: 2
+  - questionText: Which field focuses on training computers using data?
+    options:
+    - Machine Learning
+    - Networking
+    - Cybersecurity
+    - Web Development
+    correctOptionIndex: 0
+  - questionText: Which weapon is primarily used for long-range precision shooting?
+    options:
+    - Sniper Rifle
+    - Pistol
+    - SMG
+    - Shotgun
+    correctOptionIndex: 0
+  - questionText: Which is the longest river in the world?
+    options:
+    - Amazon
+    - Nile
+    - Yangtze
+    - Indus
+    correctOptionIndex: 1

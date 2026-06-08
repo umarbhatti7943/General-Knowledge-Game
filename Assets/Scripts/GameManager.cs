@@ -5,13 +5,18 @@ using DG.Tweening;
 public class GameManager : MonoBehaviour
 {
     public UIManager uiManager;
-    
+
+    private const string QuestionProgressKey = "QuestionProgress";
+    private const string StreakProgressKey = "StreakCount";
+
     private QuizData quizData;
     private int currentQuestionIndex = 0;
+    private int streakCount = 0;
     private bool isAnswered = false;
 
     void Start()
     {
+        //SoundManager._SoundManager.playGameplaySound();
         // Get QuizData from GameData singleton
         if (GameData.Instance != null)
         {
@@ -29,14 +34,24 @@ public class GameManager : MonoBehaviour
             return;
         }
 
+        currentQuestionIndex = LoadQuestionProgress();
+        if (currentQuestionIndex >= quizData.Count)
+        {
+            ResetQuestionProgress();
+            currentQuestionIndex = 0;
+        }
+
+        streakCount = PlayerPrefs.GetInt(StreakProgressKey, 0);
+        uiManager.SetStreak(streakCount);
+
         // Setup button listeners
         uiManager.AnsBtn01.onClick.AddListener(() => OnAnswerSelected(0));
         uiManager.AnsBtn02.onClick.AddListener(() => OnAnswerSelected(1));
         uiManager.AnsBtn03.onClick.AddListener(() => OnAnswerSelected(2));
         uiManager.AnsBtn04.onClick.AddListener(() => OnAnswerSelected(3));
 
-        // Display first question
-        DisplayQuestion(0);
+        // Display saved question or first question
+        DisplayQuestion(currentQuestionIndex);
     }
 
     void DisplayQuestion(int questionIndex)
@@ -49,6 +64,7 @@ public class GameManager : MonoBehaviour
 
         currentQuestionIndex = questionIndex;
         isAnswered = false;
+        SaveQuestionProgress(questionIndex);
 
         var question = quizData.GetQuestion(questionIndex);
         if (question == null || !question.IsValid())
@@ -78,22 +94,72 @@ public class GameManager : MonoBehaviour
 
         bool isCorrect = (selectedIndex == question.correctOptionIndex);
 
+        if (isCorrect)
+        {
+            streakCount++;
+        }
+        else
+        {
+            streakCount = 0;
+        }
+
+        uiManager.SetStreak(streakCount);
+        uiManager.PlayStreakPulse(isCorrect);
+        SaveStreakProgress();
+
+        int nextQuestionIndex = currentQuestionIndex + 1;
+        if (nextQuestionIndex >= quizData.Count)
+        {
+            nextQuestionIndex = 0;
+        }
+
+        SaveQuestionProgress(nextQuestionIndex);
+
         // Show feedback
         uiManager.ShowFeedback(selectedIndex, question.correctOptionIndex, isCorrect);
 
         // Wait 1 second then load next question
-        StartCoroutine(LoadNextQuestionAfterDelay());
+        StartCoroutine(LoadNextQuestionAfterDelay(nextQuestionIndex));
     }
 
-    IEnumerator LoadNextQuestionAfterDelay()
+    IEnumerator LoadNextQuestionAfterDelay(int nextQuestionIndex)
     {
         yield return new WaitForSeconds(1f);
-
         // Fade out
         uiManager.PlayFadeOut();
         yield return new WaitForSeconds(0.5f);
 
         // Load next question
-        DisplayQuestion(currentQuestionIndex + 1);
+        DisplayQuestion(nextQuestionIndex);
+    }
+
+    private int LoadQuestionProgress()
+    {
+        return PlayerPrefs.GetInt(QuestionProgressKey, 0);
+    }
+
+    private void SaveQuestionProgress(int questionIndex)
+    {
+        PlayerPrefs.SetInt(QuestionProgressKey, questionIndex);
+        PlayerPrefs.Save();
+    }
+
+    private void SaveStreakProgress()
+    {
+        PlayerPrefs.SetInt(StreakProgressKey, streakCount);
+        PlayerPrefs.Save();
+    }
+
+    private void ResetQuestionProgress()
+    {
+        PlayerPrefs.DeleteKey(QuestionProgressKey);
+        PlayerPrefs.DeleteKey(StreakProgressKey);
+        PlayerPrefs.Save();
+
+        streakCount = 0;
+        if (uiManager != null)
+        {
+            uiManager.SetStreak(streakCount);
+        }
     }
 }

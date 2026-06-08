@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
     public Text AnsText02;
     public Text AnsText03;
     public Text AnsText04;
+    public Text StreakText;
 
     [Header("AnswerBtns")]
     public Button AnsBtn01;
@@ -60,9 +61,9 @@ public class UIManager : MonoBehaviour
     {
         ResetAllAnswerTextColor();
         ResetAllButtonColors();
-
         Button selectedButton = GetAnswerButton(selectedIndex);
         Text selectedText = GetAnswerText(selectedIndex);
+        
         if (selectedButton != null)
         {
             selectedButton.image.color = isCorrect ? correctColor : wrongColor;
@@ -96,6 +97,26 @@ public class UIManager : MonoBehaviour
         ResetAllButtonColors();
     }
 
+    public void SetStreak(int streak)
+    {
+        if (StreakText == null) 
+            return;
+
+        StreakText.text = streak.ToString();
+    }
+
+    public void PlayStreakPulse(bool isPositive)
+    {
+        if (StreakText == null) 
+            return;
+
+        DOTween.Kill(StreakText.transform);
+        StreakText.transform.localScale = Vector3.one;
+        Sequence pulseSequence = DOTween.Sequence();
+        pulseSequence.Append(StreakText.transform.DOScale(Vector3.one * 1.2f, 0.15f).SetEase(Ease.OutBack));
+        pulseSequence.Append(StreakText.transform.DOScale(Vector3.one, 0.15f).SetEase(Ease.InBack));
+    }
+
     void ResetAllAnswerTextColor()
     {
         AnsText01.color = defaultTextColor;
@@ -125,11 +146,16 @@ public class UIManager : MonoBehaviour
     {
         switch (index)
         {
-            case 0: return AnsText01;
-            case 1: return AnsText02;
-            case 2: return AnsText03;
-            case 3: return AnsText04;
-            default: return null;
+            case 0: 
+                return AnsText01;
+            case 1: 
+                return AnsText02;
+            case 2: 
+                return AnsText03;
+            case 3: 
+                return AnsText04;
+            default: 
+                return null;
         }
     }
 
@@ -137,11 +163,16 @@ public class UIManager : MonoBehaviour
     {
         switch (index)
         {
-            case 0: return AnsBtn01;
-            case 1: return AnsBtn02;
-            case 2: return AnsBtn03;
-            case 3: return AnsBtn04;
-            default: return null;
+            case 0: 
+                return AnsBtn01;
+            case 1: 
+                return AnsBtn02;
+            case 2: 
+                return AnsBtn03;
+            case 3: 
+                return AnsBtn04;
+            default: 
+                return null;
         }
     }
 
